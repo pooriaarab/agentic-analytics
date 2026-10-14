@@ -2,107 +2,60 @@
 
 Score social post results and recommend the next move.
 
-Clone this repo to start a new pack. It gives one core with three
-faces: a terminal command, an npm import, and an MCP server.
+`agentic-analytics` is a local, no-network analytics pack for your own brand accounts. It imports JSON or CSV performance metrics, scores posts, compares formats, and gives data-backed next moves. The SDK, CLI, and MCP server expose the same domain functions.
 
-## What you get
-
-- One core: brand config, logs, guards, routing, dry run, cost reports.
-- Three faces over that core: CLI, library, MCP server.
-- A frozen core contract, so packs share one API.
-- A worker entry and a wrangler sample for edge deploys.
-- Build, typecheck, and tests that pass from a fresh clone.
-
-## Quick start
+## Install and verify
 
 ```sh
-git clone https://github.com/pooriaarab/agentic-analytics.git my-pack
-cd my-pack
 npm install
 npm run build
 npm run typecheck
 npm test
 ```
 
-Run the command:
+## Metrics input
 
-```sh
-node dist/cli.js summary --text "hello world hello"
+JSON can be an array (or `{ "posts": [...] }`), and CSV must use these headers:
+
+```json
+[{"platform":"linkedin","hook":"Stop guessing","format":"carousel","impressions":1000,"likes":40,"comments":8,"shares":5,"clicks":30,"leads":4}]
 ```
 
-Call the library:
-
-```js
-import { summarizeText } from "./dist/index.js";
-
-console.log(summarizeText("hello world hello"));
+```csv
+platform,hook,format,impressions,likes,comments,shares,clicks,leads
+linkedin,Stop guessing,carousel,1000,40,8,5,30,4
 ```
 
-Start the MCP server:
+## CLI
 
 ```sh
+node dist/cli.js ingest --file metrics.json
+node dist/cli.js rank --file metrics.csv
+node dist/cli.js recommend --file metrics.json
+node dist/cli.js report --file metrics.json --markdown
+node dist/cli.js costs
 node dist/cli.js mcp
 ```
 
-## Three usecases
+## Library
 
-1. You run one text summary from the terminal.
-2. You import the summary function in a script.
-3. You let an agent call the same function as an MCP tool.
+```ts
+import { parseMetricsText, rankPosts, recommendNext, createReport, reportMarkdown } from "agentic-analytics";
 
-## Clone checklist
-
-This repo is a template. Replace each slot in each file that holds it.
-
-- `agentic-analytics`: the directory name, like `my-pack`.
-- `agentic-analytics`: the npm name, like `agentic-<block>` (bare name, never @pooriaarab/ scoped unless the brief says scoped).
-- `agentic-analytics`: the terminal command, like `my-pack`.
-- `Score social post results and recommend the next move.`: one plain sentence, under 100 chars.
-- `analytics,social,metrics,agentic-suite,cli,mcp`: plain keywords, like `notes, search, cli`.
-- `pooriaarab`: the repo owner, like `pooriaarab`.
-
-Slot files: `AGENTS.md`, `SKILL.md`, `RULES.md`, `llms.txt`,
-`server.json`, `.mcp.json`, `wrangler.jsonc`.
-
-Then rename the scaffold identity itself:
-
-- `package.json`: name, bin commands, mcpName. Remove `"private": true`.
-- `src/index.ts`: the `DEFAULT_BRAND` fields.
-- This file: the pitch and the examples above.
-
-At publish time, set `server.json` version to the npm version and
-`server.json` repository id from `gh api repos/OWNER/REPO --jq .id`.
-
-## Gates
-
-Run all three before you push a pack:
-
-```sh
-npm run build && npm run typecheck && npm test
+const posts = parseMetricsText(metricsText);
+const ranked = rankPosts(posts);
+const nextMoves = recommendNext(ranked);
+console.log(reportMarkdown(createReport(posts)));
 ```
 
-Then run the real installed CLI once from a tarball:
+`scorePost` computes engagement rate as `(likes + comments + shares) / impressions` and lead rate as `leads / impressions`. Scores prioritize lead rate while retaining engagement as a signal.
 
-```sh
-npm pack
-npx --yes --package ./pooriaarab-agentic-analytics-0.1.0.tgz agentic-pack summary --text "hello"
-```
+## MCP tools
 
-## Release flow
+- `ingest_metrics`
+- `rank_posts`
+- `recommend_next`
+- `analytics_report`
+- `get_cost_report`
 
-Push to `main` for review. Merge to `release` to publish. The
-publish workflow ships only when the version is new.
-
-## Layout
-
-- `src/index.ts`: the library face.
-- `src/cli.ts`: the terminal face.
-- `src/mcp.ts`: the MCP server. `src/mcp-bin.ts` starts it.
-- `src/worker.ts`: the edge worker face.
-- `src/core.ts`: the shared core.
-- `agentic-core.d.ts`: the frozen contract.
-- `docs/agentic-core.md`: the contract in plain words.
-
-## License
-
-MIT. See `LICENSE`.
+All analytics tools are read-only and accept metrics as JSON or CSV text. No external network access is required.
