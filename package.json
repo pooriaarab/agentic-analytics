@@ -1,6 +1,6 @@
 {
   "name": "agentic-analytics",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Local social post analytics for Node.js: import JSON or CSV metrics, rank posts, compare formats, and generate reports through SDK, CLI, or MCP.",
   "keywords": [
     "social-media-analytics",
