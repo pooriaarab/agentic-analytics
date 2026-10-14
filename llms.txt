@@ -1,0 +1,15 @@
+# agentic-analytics
+
+Score social post results and recommend the next move.
+
+Keywords: analytics,social,metrics,agentic-suite,cli,mcp.
+
+- SDK: import { summarizeText, dispatchText } from "agentic-analytics".
+- CLI: agentic-analytics summary --text "...".
+- MCP: run agentic-analytics mcp, then call summarize_text.
+
+## Docs
+
+- README: https://github.com/pooriaarab/agentic-analytics
+- Core contract: https://github.com/pooriaarab/agentic-analytics/blob/main/docs/agentic-core.md
+- License: MIT

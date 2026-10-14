@@ -1,0 +1,10 @@
+{
+  // Sample worker config. Rename agentic-analytics on clone, then run
+  // wrangler deploy from the pack root.
+  "name": "agentic-analytics",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-01-01",
+  "vars": {
+    "PACK_NAME": "agentic-analytics"
+  }
+}

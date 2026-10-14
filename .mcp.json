@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "agentic-analytics": {
+      "command": "npx",
+      "args": ["-y", "agentic-analytics", "mcp"]
+    }
+  }
+}
