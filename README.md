@@ -77,7 +77,7 @@ There are zero branded platform connectors. `platform` is a user-supplied label,
 | --- | --- | --- |
 | JSON array | Implemented | Post metrics |
 | JSON object with `posts` array | Implemented | Post metrics |
-| CSV | CSV | Fixed field schema |
+| CSV | Implemented | Fixed field schema |
 | Social network APIs | — | No account connection or data fetching |
 | Generic HTTP text router | SDK utility | Sends `{text}` to your endpoint; not a metrics connector |
 | Local text router | Local receipt only | No external delivery |
