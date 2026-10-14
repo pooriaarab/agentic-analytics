@@ -1,14 +1,22 @@
 {
   "name": "agentic-analytics",
   "version": "0.1.0",
-  "description": "Score social post results and recommend the next move.",
+  "description": "Local social post analytics for Node.js: import JSON or CSV metrics, rank posts, compare formats, and generate reports through SDK, CLI, or MCP.",
   "keywords": [
-    "analytics",
-    "social",
-    "metrics",
-    "agentic-suite",
+    "social-media-analytics",
+    "post-metrics",
+    "engagement-rate",
+    "lead-rate",
+    "content-performance",
+    "csv",
+    "json",
+    "markdown",
+    "nodejs",
+    "typescript",
     "cli",
-    "mcp"
+    "mcp",
+    "format-comparison",
+    "post-ranking"
   ],
   "license": "MIT",
   "author": "Pooria Arab",
